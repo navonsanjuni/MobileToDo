@@ -1,5 +1,3 @@
-
-
 import type React from "react"
 import { useState } from "react"
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, Alert } from "react-native"
@@ -27,19 +25,25 @@ const TaskScreen: React.FC<TaskScreenProps> = ({ navigation }) => {
   }
 
   const handleEditTask = (id: string) => {
+    console.log("Navigating to EditTaskScreen with ID:", id)
     navigation.navigate("EditTask", { taskId: id })
   }
 
   const handleViewTask = (id: string) => {
+    console.log("Navigating to TaskDetailScreen with ID:", id)
     navigation.navigate("TaskDetail", { taskId: id })
   }
 
   const handleDeleteTask = (id: string) => {
+    console.log("Deleting task with ID:", id)
     Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Delete",
-        onPress: () => removeTask(id),
+        onPress: () => {
+          console.log("Task deleted:", id)
+          removeTask(id)
+        },
         style: "destructive",
       },
     ])
