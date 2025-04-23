@@ -3,7 +3,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import {
   addTask,
-  updateTask,
+  updateTask as updateTaskAction,
   deleteTask,
   toggleTaskCompletion,
   selectAllTasks,
@@ -17,20 +17,11 @@ export const useTask = () => {
   const dispatch = useDispatch<AppDispatch>()
   const tasks = useSelector(selectAllTasks)
 
-  const getTaskById = useCallback((id: string) => {
-    return useSelector((state: RootState) => selectTaskById(state, id))
-  }, [])
+  const getTaskById = (id: string) => tasks.find((task) => task.id === id)
 
-  const taskByIdSelector = useCallback((id: string) => {
-    return (state: RootState) => selectTaskById(state, id)
-  }, [])
-
-  const getTask = useCallback(
-    (id: string) => {
-      return useSelector(taskByIdSelector(id))
-    },
-    [taskByIdSelector],
-  )
+  const updateTask = (update: { id: string; changes: Partial<Task> }) => {
+    dispatch(updateTaskAction(update))
+  }
 
   const createTask = useCallback(
     (title: string, description?: string) => {
@@ -49,7 +40,7 @@ export const useTask = () => {
   const editTask = useCallback(
     (id: string, title: string, description?: string) => {
       dispatch(
-        updateTask({
+        updateTaskAction({
           id,
           changes: {
             title,
@@ -86,13 +77,14 @@ export const useTask = () => {
 
   return {
     tasks,
-    getTaskById: getTask,
+    getTaskById,
     createTask,
     editTask,
     removeTask,
     toggleComplete,
     getCompletedTasks,
     getPendingTasks,
+    updateTask,
   }
 }
 
