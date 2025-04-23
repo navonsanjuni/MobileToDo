@@ -1,66 +1,70 @@
-import type React from "react"
-import { useState } from "react"
-import { View, FlatList, StyleSheet, Text, TouchableOpacity, Alert } from "react-native"
-import type { StackNavigationProp } from "@react-navigation/stack"
-import type { RootStackParamList } from "../navigation/AppNavigator"
-import TaskComponent from "../components/TaskComponents"
-import { colors } from "../theme/color"
-import useTask from "../hooks/useTask"
-import { Plus, Filter } from "react-native-feather"
+import React, { useState, useLayoutEffect } from "react";
+import { View, FlatList, StyleSheet, Text, TouchableOpacity, Alert, Image } from "react-native";
+import type { StackNavigationProp } from "@react-navigation/stack";
+import type { RootStackParamList } from "../navigation/AppNavigator";
+import TaskComponent from "../components/TaskComponents";
+import { colors } from "../theme/color";
+import useTask from "../hooks/useTask";
+import { Plus, Filter } from "react-native-feather";
 
-type TaskScreenNavigationProp = StackNavigationProp<RootStackParamList, "Tasks">
+type TaskScreenNavigationProp = StackNavigationProp<RootStackParamList, "Tasks">;
 
 interface TaskScreenProps {
-  navigation: TaskScreenNavigationProp
+  navigation: TaskScreenNavigationProp;
 }
 
-type FilterType = "all" | "completed" | "pending"
+type FilterType = "all" | "completed" | "pending";
 
 const TaskScreen: React.FC<TaskScreenProps> = ({ navigation }) => {
-  const { tasks, toggleComplete, removeTask, getCompletedTasks, getPendingTasks } = useTask()
-  const [filterType, setFilterType] = useState<FilterType>("all")
+  const { tasks, toggleComplete, removeTask, getCompletedTasks, getPendingTasks } = useTask();
+  const [filterType, setFilterType] = useState<FilterType>("all");
+
+  // Add profile icon to the header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.profileIcon}>
+          <Image source={require("../assets/icons/user1.png")} style={styles.profileImage} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const handleAddTask = () => {
-    navigation.navigate("CreateTask")
-  }
+    navigation.navigate("CreateTask");
+  };
 
   const handleEditTask = (id: string) => {
-    console.log("Navigating to EditTaskScreen with ID:", id);
     navigation.navigate("EditTask", { taskId: id });
   };
 
   const handleViewTask = (id: string) => {
-    console.log("Navigating to TaskDetailScreen with ID:", id)
-    navigation.navigate("TaskDetail", { taskId: id })
-  }
+    navigation.navigate("TaskDetail", { taskId: id });
+  };
 
   const handleDeleteTask = (id: string) => {
-    console.log("Deleting task with ID:", id)
     Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Delete",
-        onPress: () => {
-          console.log("Task deleted:", id)
-          removeTask(id)
-        },
+        onPress: () => removeTask(id),
         style: "destructive",
       },
-    ])
-  }
+    ]);
+  };
 
   const getFilteredTasks = () => {
     switch (filterType) {
       case "completed":
-        return getCompletedTasks()
+        return getCompletedTasks();
       case "pending":
-        return getPendingTasks()
+        return getPendingTasks();
       default:
-        return tasks
+        return tasks;
     }
-  }
+  };
 
-  const filteredTasks = getFilteredTasks()
+  const filteredTasks = getFilteredTasks();
 
   return (
     <View style={styles.container}>
@@ -122,14 +126,22 @@ const TaskScreen: React.FC<TaskScreenProps> = ({ navigation }) => {
         <Plus width={24} height={24} color={colors.white} />
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
     padding: 16,
+  },
+  profileIcon: {
+    marginRight: 16,
+  },
+  profileImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
   },
   filterContainer: {
     flexDirection: "row",
@@ -199,6 +211,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
   },
-})
+});
 
-export default TaskScreen
+export default TaskScreen;
