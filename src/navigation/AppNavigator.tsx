@@ -1,21 +1,23 @@
-import { NavigationContainer } from "@react-navigation/native"
-import { createStackNavigator } from "@react-navigation/stack"
-import WelcomeScreen from "../screens/WelcomeScreen"
-import TaskScreen from "../screens/TaskScreen"
-import CreateTaskScreen from "../screens/CreateTaskScreen"
-import EditTaskScreen from "../screens/EditTaskScreen"
-import TaskDetailScreen from "../screens/TaskDetailScreen"
-import { colors } from "../theme/color"
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import WelcomeScreen from "../screens/WelcomeScreen";
+import TaskScreen from "../screens/TaskScreen";
+import CreateTaskScreen from "../screens/CreateTaskScreen";
+import EditTaskScreen from "../screens/EditTaskScreen";
+import TaskDetailScreen from "../screens/TaskDetailScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import { colors } from "../theme/color";
 
 export type RootStackParamList = {
-  Welcome: undefined
-  Tasks: undefined
-  CreateTask: undefined
-  EditTask: { taskId: string }
-  TaskDetail: { taskId: string }
-}
+  Welcome: undefined;
+  Tasks: undefined;
+  CreateTask: undefined;
+  EditTask: { taskId: string };
+  TaskDetail: { taskId: string };
+  Profile: undefined;
+};
 
-const Stack = createStackNavigator<RootStackParamList>()
+const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
   return (
@@ -38,9 +40,10 @@ const AppNavigator = () => {
         <Stack.Screen name="CreateTask" component={CreateTaskScreen} options={{ title: "Create New Task" }} />
         <Stack.Screen name="EditTask" component={EditTaskScreen} options={{ title: "Edit Task" }} />
         <Stack.Screen name="TaskDetail" component={TaskDetailScreen} options={{ title: "Task Details" }} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: "Profile" }} />
       </Stack.Navigator>
     </NavigationContainer>
-  )
-}
+  );
+};
 
-export default AppNavigator
+export default AppNavigator;

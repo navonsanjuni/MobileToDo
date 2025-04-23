@@ -1,32 +1,32 @@
-import type React from "react"
-import { useEffect } from "react"
-import { View, Text, StyleSheet, Image, StatusBar } from "react-native"
-import type { StackNavigationProp } from "@react-navigation/stack"
-import type { RootStackParamList } from "../navigation/AppNavigator"
-import ButtonComponent from "../components/ButtonComponents"
-import { colors } from "../theme/color"
-import { loadTasks } from "../store/taskSlice"
-import { useDispatch } from "react-redux"
-import type { AppDispatch } from "../store/store"
+import React from "react";
+import { useEffect } from "react";
+import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
+import ButtonComponent from "../components/ButtonComponents";
+import { colors } from "../theme/color";
+import type { StackNavigationProp } from "@react-navigation/stack";
+import type { RootStackParamList } from "../navigation/AppNavigator";
+import { loadTasks } from "../store/taskSlice";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../store/store";
 
-type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Welcome">
+type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Welcome">;
 
 interface WelcomeScreenProps {
-  navigation: WelcomeScreenNavigationProp
+  navigation: WelcomeScreenNavigationProp;
 }
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     // Load tasks from storage when app starts
-    dispatch(loadTasks())
-  }, [dispatch])
+    dispatch(loadTasks());
+  }, [dispatch]);
 
   const handleGetStarted = () => {
-    console.log("Navigating to Tasks screen") // Debugging log
-    navigation.replace("Tasks") // Navigate to the Tasks screen
-  }
+    console.log("Navigating to Tasks screen");
+    navigation.replace("Tasks"); // Navigate to the Tasks screen
+  };
 
   return (
     <View style={styles.container}>
@@ -40,8 +40,8 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
         <ButtonComponent title="Get Started" onPress={handleGetStarted} fullWidth />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -77,6 +77,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 24,
   },
-})
+});
 
-export default WelcomeScreen
+export default WelcomeScreen;
