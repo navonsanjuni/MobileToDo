@@ -25,9 +25,9 @@ const TaskScreen: React.FC<TaskScreenProps> = ({ navigation }) => {
   }
 
   const handleEditTask = (id: string) => {
-    console.log("Navigating to EditTaskScreen with ID:", id)
-    navigation.navigate("EditTask", { taskId: id })
-  }
+    console.log("Navigating to EditTaskScreen with ID:", id);
+    navigation.navigate("EditTask", { taskId: id });
+  };
 
   const handleViewTask = (id: string) => {
     console.log("Navigating to TaskDetailScreen with ID:", id)

@@ -37,7 +37,7 @@ const taskSlice = createSlice({
         return { payload: { ...task, id } }
       },
     },
-    updateTask: (state, action) => {
+    updateTask: (state, action: PayloadAction<{ id: string; changes: Partial<Task> }>) => {
       tasksAdapter.updateOne(state, action.payload)
       saveTasksToStorage(Object.values(state.entities).filter(Boolean) as Task[])
     },

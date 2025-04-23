@@ -28,14 +28,15 @@ const EditTaskScreen: React.FC<EditTaskScreenProps> = ({ navigation, route }) =>
   const [titleError, setTitleError] = useState("")
 
   useEffect(() => {
-    const task = getTaskById(taskId)
+    const task = getTaskById(taskId);
+    console.log("Fetched task:", task);
     if (task) {
-      setTitle(task.title)
-      setDescription(task.description || "")
+      setTitle(task.title);
+      setDescription(task.description || "");
     } else {
-      Alert.alert("Error", "Task not found", [{ text: "OK", onPress: () => navigation.goBack() }])
+      Alert.alert("Error", "Task not found", [{ text: "OK", onPress: () => navigation.goBack() }]);
     }
-  }, [taskId, getTaskById, navigation])
+  }, []);
 
   const validateForm = () => {
     let isValid = true
@@ -51,12 +52,15 @@ const EditTaskScreen: React.FC<EditTaskScreenProps> = ({ navigation, route }) =>
   }
 
   const handleUpdateTask = () => {
-    if (validateForm()) {
-      editTask(taskId, title.trim(), description.trim())
-      Alert.alert("Success", "Task updated successfully", [{ text: "OK", onPress: () => navigation.goBack() }])
+    console.log("Saving task:", { title, description });
+    if (!title.trim()) {
+      Alert.alert("Error", "Task title cannot be empty");
+      return;
     }
-  }
-
+  
+    editTask(taskId, title.trim(), description.trim());
+    Alert.alert("Success", "Task updated successfully", [{ text: "OK", onPress: () => navigation.goBack() }]);
+  };
   return (
     <ScrollView
       style={styles.container}
