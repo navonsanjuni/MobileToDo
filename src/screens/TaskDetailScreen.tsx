@@ -22,12 +22,14 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ navigation, route }
   const { getTaskById, toggleComplete, removeTask } = useTask();
   const [task, setTask] = useState<Task | null>(null);
 
+  // Fetch the task when the screen is loaded
   useEffect(() => {
     const taskData = getTaskById(taskId);
     if (taskData) {
       setTask(taskData);
     } else {
-      Alert.alert("Error", "Task not found", [{ text: "OK", onPress: () => navigation.navigate("Tasks") }]);
+      // Navigate back to the TaskScreen if the task is not found
+      navigation.navigate("Tasks");
     }
   }, [taskId, getTaskById, navigation]);
 
@@ -52,7 +54,9 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ navigation, route }
         text: "Delete",
         onPress: () => {
           removeTask(taskId);
-          navigation.navigate("Tasks"); // Navigate to TaskScreen after deletion
+          Alert.alert("Success", "Task deleted successfully", [
+            { text: "OK", onPress: () => navigation.navigate("Tasks") },
+          ]);
         },
         style: "destructive",
       },
