@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: "100%",
-    marginTop: 24,
+    marginTop: 18,
   },
 });
 
