@@ -1,52 +1,51 @@
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import type { StackNavigationProp } from "@react-navigation/stack";
+import type { RouteProp } from "@react-navigation/native";
+import type { RootStackParamList } from "../navigation/AppNavigator";
+import ButtonComponent from "../components/ButtonComponents";
+import { colors } from "../theme/color";
+import useTask from "../hooks/useTask";
+import type { Task } from "../store/taskSlice";
+import { Calendar, Clock, CheckCircle, Circle } from "react-native-feather";
 
-
-import type React from "react"
-import { useEffect, useState } from "react"
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native"
-import type { StackNavigationProp } from "@react-navigation/stack"
-import type { RouteProp } from "@react-navigation/native"
-import type { RootStackParamList } from "../navigation/AppNavigator"
-import ButtonComponent from "../components/ButtonComponents"
-import { colors } from "../theme/color"
-import useTask from "../hooks/useTask"
-import type { Task } from "../store/taskSlice"
-import { Calendar, Clock, CheckCircle, Circle } from "react-native-feather"
-
-type TaskDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, "TaskDetail">
-type TaskDetailScreenRouteProp = RouteProp<RootStackParamList, "TaskDetail">
+type TaskDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, "TaskDetail">;
+type TaskDetailScreenRouteProp = RouteProp<RootStackParamList, "TaskDetail">;
 
 interface TaskDetailScreenProps {
-  navigation: TaskDetailScreenNavigationProp
-  route: TaskDetailScreenRouteProp
+  navigation: TaskDetailScreenNavigationProp;
+  route: TaskDetailScreenRouteProp;
 }
 
 const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ navigation, route }) => {
-  const { taskId } = route.params
-  const { getTaskById, toggleComplete, removeTask } = useTask()
-  const [task, setTask] = useState<Task | null>(null)
+  const { taskId } = route.params;
+  const { getTaskById, toggleComplete, removeTask } = useTask();
+  const [task, setTask] = useState<Task | null>(null);
 
+  // Fetch the task when the screen is loaded
   useEffect(() => {
-    const taskData = getTaskById(taskId)
+    const taskData = getTaskById(taskId);
     if (taskData) {
-      setTask(taskData)
+      setTask(taskData);
     } else {
-      Alert.alert("Error", "Task not found", [{ text: "OK", onPress: () => navigation.goBack() }])
+      // Navigate back to the TaskScreen if the task is not found
+      navigation.navigate("Tasks");
     }
-  }, [taskId, getTaskById, navigation])
+  }, [taskId, getTaskById, navigation]);
 
   const handleToggleComplete = () => {
     if (task) {
-      toggleComplete(task.id)
+      toggleComplete(task.id);
       setTask({
         ...task,
         completed: !task.completed,
-      })
+      });
     }
-  }
+  };
 
   const handleEdit = () => {
-    navigation.navigate("EditTask", { taskId })
-  }
+    navigation.navigate("EditTask", { taskId });
+  };
 
   const handleDelete = () => {
     Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
@@ -54,28 +53,30 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ navigation, route }
       {
         text: "Delete",
         onPress: () => {
-          removeTask(taskId)
-          navigation.goBack()
+          removeTask(taskId);
+          Alert.alert("Success", "Task deleted successfully", [
+            { text: "OK", onPress: () => navigation.navigate("Tasks") },
+          ]);
         },
         style: "destructive",
       },
-    ])
-  }
+    ]);
+  };
 
   if (!task) {
-    return null
+    return null; // Render nothing if the task is not found
   }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-    })
-  }
+    });
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -129,8 +130,8 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ navigation, route }
         </View>
       </View>
     </ScrollView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -202,6 +203,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     gap: 12,
   },
-})
+});
 
-export default TaskDetailScreen
+export default TaskDetailScreen;
