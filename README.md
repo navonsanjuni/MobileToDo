@@ -10,9 +10,8 @@ A simple and efficient task manager mobile application built with **React Native
 - Mark tasks as completed or pending.
 - **Filter Tasks**: Filter tasks based on their status (e.g., completed, pending).
 - Track total and completed tasks.
-- Profile screen with task stats and progress bar.
+- Profile screen with task stats.
 - AsyncStorage integration for local persistence.
-- Custom bottom navigation bar.
 - Optimized for Android (works on iOS with additional setup).
 
 ---
@@ -84,7 +83,9 @@ cd android
 
 ## 🎥 Demo Video
 
-[Watch Demo]()
+
+https://github.com/user-attachments/assets/9d2b5545-b894-41bd-ac4e-128a5620bc5a
+
 
 ---
 
