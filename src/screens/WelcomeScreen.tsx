@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar, ImageBackground } from "react-native";
 import ButtonComponent from "../components/ButtonComponents";
 import { colors } from "../theme/color";
 import type { StackNavigationProp } from "@react-navigation/stack";
@@ -29,24 +29,32 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
-      <View style={styles.content}>
-        <Image source={require("../assets/images/placeholder.jpg")} style={styles.image} resizeMode="contain" />
-        <Text style={styles.title}>Welcome to TaskMaster</Text>
-        <Text style={styles.subtitle}>Organize your tasks efficiently and boost your productivity</Text>
+    <ImageBackground
+      source={require("../assets/images/rembg.jpeg")} // Replace with your background image path
+      style={styles.background}
+    >
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Image source={require("../assets/images/placeholder.jpg")} style={styles.image} resizeMode="contain" />
+          <Text style={styles.title}>Welcome to TaskMaster</Text>
+          <Text style={styles.subtitle}>Organize your tasks efficiently and boost your productivity</Text>
+        </View>
+        <View style={styles.footer}>
+          <ButtonComponent title="Get Started" onPress={handleGetStarted} fullWidth />
+        </View>
       </View>
-      <View style={styles.footer}>
-        <ButtonComponent title="Get Started" onPress={handleGetStarted} fullWidth />
-      </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // Optional overlay for better readability
     padding: 24,
     justifyContent: "space-between",
   },
@@ -56,8 +64,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
     marginBottom: 32,
   },
   title: {
@@ -75,7 +83,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: "100%",
-    marginTop: 18,
+    marginTop: 14,
   },
 });
 

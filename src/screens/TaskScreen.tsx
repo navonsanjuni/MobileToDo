@@ -24,7 +24,7 @@ const TaskScreen: React.FC<TaskScreenProps> = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.profileIcon}>
-          <Image source={require("../assets/icons/user1.png")} style={styles.profileImage} />
+          <Image source={require("../assets/icons/profile.jpg")} style={styles.profileImage} />
         </TouchableOpacity>
       ),
     });
